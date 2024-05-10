@@ -42,6 +42,11 @@ class APIKeyEnforcer implements MiddlewareInterface
         $this->responseFactory = $responseFactory ?: AppFactory::determineResponseFactory();
     }
 
+    /**
+     * @param Request $request
+     * @param RequestHandler $handler
+     * @return Response
+     */
     public function process(Request $request, RequestHandler $handler): Response
     {
         if (!$this->isValid($request)) {
@@ -51,7 +56,11 @@ class APIKeyEnforcer implements MiddlewareInterface
         return $handler->handle($request);
     }
 
-    private function isValid(Request $request): bool
+    /**
+     * @param Request $request
+     * @return bool
+     */
+    protected function isValid(Request $request): bool
     {
         if (in_array($request->getUri()->getPath(), $this->exemptPaths, true)) {
             return true;
@@ -63,10 +72,15 @@ class APIKeyEnforcer implements MiddlewareInterface
         }
 
         $passedAPIKey = $headerValues[0];
-        if (in_array($passedAPIKey, $this->apiKeys, true)) {
-            return true;
-        }
+        return $this->isProvidedAPIKeyValid($passedAPIKey);
+    }
 
-        return false;
+    /**
+     * @param string $apiKey
+     * @return bool
+     */
+    protected function isProvidedAPIKeyValid(string $apiKey): bool
+    {
+        return in_array($apiKey, $this->apiKeys, true);
     }
 }
