@@ -14,22 +14,22 @@ class APIKeyEnforcer implements MiddlewareInterface
     /**
      * @var array
      */
-    private array $apiKeys;
+    protected array $apiKeys;
 
     /**
      * @var array
      */
-    private array $exemptPaths;
+    protected array $exemptPaths;
 
     /**
      * @var string
      */
-    private string $headerKey;
+    protected string $headerKey;
 
     /**
      * @var ResponseFactoryInterface
      */
-    private ResponseFactoryInterface $responseFactory;
+    protected ResponseFactoryInterface $responseFactory;
 
     /**
      * Creates a new instance of APIKeyEnforcer Middleware
