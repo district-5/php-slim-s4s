@@ -156,7 +156,7 @@ class AppFactory extends SlimAppFactory
     protected static function initialiseContainer(): Container
     {
         $containerBuilder = new ContainerBuilder();
-        $containerBuilder->useAnnotations(false);
+        $containerBuilder->useAttributes(false);
         $containerBuilder->useAutowiring(false);
         return $containerBuilder->build();
     }
