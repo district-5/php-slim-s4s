@@ -7,6 +7,7 @@ enum Environment
     case Local;
     case Build;
     case Development;
+    case Runway;
     case Staging;
     case Production;
 }
