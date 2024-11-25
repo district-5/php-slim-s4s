@@ -30,8 +30,10 @@ class AppFactory extends SlimAppFactory
 
         // route cache file, if we are in development automatically regenerate this file
         $routeCacheFilename = $serviceBase . DIRECTORY_SEPARATOR . "routes-cache.php";
-        if (static::isEnvironmentDevelopmentOrBuild() && file_exists($routeCacheFilename)) {
-            unlink($routeCacheFilename);
+        if (true === static::isEnvironmentDevelopmentOrBuild()) {
+            if (file_exists($routeCacheFilename)) {
+                unlink($routeCacheFilename);
+            }
         }
         $routeCollector->setCacheFile($routeCacheFilename);
 
