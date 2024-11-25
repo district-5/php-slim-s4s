@@ -32,7 +32,7 @@ class AppFactory extends SlimAppFactory
         $routeCacheFilename = $serviceBase . DIRECTORY_SEPARATOR . "routes-cache.php";
         if (true === static::isEnvironmentDevelopmentOrBuild()) {
             if (file_exists($routeCacheFilename)) {
-                unlink($routeCacheFilename);
+                @unlink($routeCacheFilename);
             }
         }
         $routeCollector->setCacheFile($routeCacheFilename);
@@ -40,19 +40,6 @@ class AppFactory extends SlimAppFactory
         // change the route invocation strategy
         $routeCollector->setDefaultInvocationStrategy(new RequestResponseNamedArgs());
     }
-
-//    protected static function configureTwig(App $app): void
-//    {
-//        $serviceBase = $app->getContainer()->get('serviceBase');
-//
-//        // route cache file, if we are in development automatically regenerate this file
-//        $twigTemplatesDirectory = $serviceBase . DIRECTORY_SEPARATOR . "views";
-//
-//        $twigCache = static::isEnvironmentDevelopmentOrBuild() ? false : $serviceBase . DIRECTORY_SEPARATOR . "views-cache";
-//        $twig = Twig::create($twigTemplatesDirectory, ['cache' => $twigCache]);
-//
-//        $app->add(TwigMiddleware::create($app, $twig));
-//    }
 
     /**
      * @param ResponseFactoryInterface|null         $responseFactory
@@ -88,8 +75,8 @@ class AppFactory extends SlimAppFactory
     {
         $responseFactory = new \Slim\Http\Factory\DecoratedResponseFactory(
             new \Slim\Psr7\Factory\ResponseFactory(),
-            new \Slim\Psr7\Factory\StreamFactory())
-        ;
+            new \Slim\Psr7\Factory\StreamFactory()
+        );
 
         $container = static::initialiseContainer();
         $container->set('serviceBase', $serviceBase);
@@ -115,11 +102,6 @@ class AppFactory extends SlimAppFactory
 
         return $app;
     }
-
-//    public static function createJsonApiFromContainer(): App
-//    {
-//
-//    }
 
     public static function createUI(string $serviceBase): App
     {
@@ -149,11 +131,6 @@ class AppFactory extends SlimAppFactory
 
         return $app;
     }
-
-//    public static function createUIFromContainer(): App
-//    {
-//
-//    }
 
     protected static function initialiseContainer(): Container
     {
